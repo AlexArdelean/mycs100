@@ -20,3 +20,4 @@ for ((i=0; i<${size_out}; i++))
     do
         echo ${array[$i]}
     done
+
