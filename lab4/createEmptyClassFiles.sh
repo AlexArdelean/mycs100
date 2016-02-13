@@ -1,6 +1,7 @@
 classname=$1
 
-echo "#include “./${classname}.hh”" > ${classname}.cc
+cat alex_0951.txt > ${classname}.cc
+echo "#include “./${classname}.hh”" >> ${classname}.cc
 echo "${classname}.hh::${classname}.hh()" >>  ${classname}.cc
 echo "{}" >> ${classname}.cc
 echo "${classname}.hh::~${classname}.hh()" >> ${classname}.cc
