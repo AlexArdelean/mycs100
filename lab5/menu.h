@@ -31,10 +31,10 @@ class Menu {
 		};
 		void add_command(Command* cmd) {
 			//Adds a command to history in the appropriate posiiton (based on history_index)
-			if (history_index >= history.size()-1)
-				history.push_back(cmd);
-			else
-				history.at(history_index + 1) = cmd;
+			if (history_index >= history.size()-1){
+				history.push_back(cmd);}
+			else {
+				history.at(history_index + 1) = cmd;}
 		};
 		Command* get_command() {
 			//Returns the command in history we are currently referring to (based on history_index)
@@ -42,10 +42,10 @@ class Menu {
 		};
 		void undo() {
 			//Moves to the last command in history (if possible)
-			if (history_index <= 0)
-				return;
-			else
-				history_index--;
+			if (history_index <= 0){
+				return;}
+			else{
+				history_index--;}
 		};
 		void redo() {
 			//Moves to the next command in history (if possible)

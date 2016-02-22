@@ -19,31 +19,36 @@ class Command {
 
 class OpCommand : public Command {
 	//OpCommand Code Here
+	public:
 	OpCommand(double val){
-	root = new Op(val);
+		root = new Op(val);
 };
 
 class AddCommand : public Command {
 	//AddCommand Code Here
+	public:
 	AddCommand(Command* root, double val){
-		Base* newroot = new Add;
-		newroot->right = new Op(val);
-		newroot.left = root;
+		Base* value = new Op(val);
+		Base* newroot = new Add(root->get_root(), value);
+		this->root = newroot;
 	}
 };
 
 class SubCommand : public Command {
 	//SubCommand Code Here
-	AddCommand(Command* root, double val){
+	public:
+	SubCommand(Command* root, double val){
 		Base* newroot = new Sub;
 		newroot->right = new Op(val);
 		newroot.left = root;
+		this->root = newroot;
 	}
 };
 
 class MultCommand : public Command {
 	//MultCommand Code Here
-	AddCommand(Command* root, double val){
+	public:
+	MultCommand(Command* root, double val){
 		Base* newroot = new Mult;
 		newroot->right = new Op(val);
 		newroot.left = root;
@@ -52,9 +57,10 @@ class MultCommand : public Command {
 
 class SqrCommand : public Command {
 	//SqrCommand Code Here
-	AddCommand(Command* root, double val){
+	public:
+	SqrCommand(Command* root, double val){
 		Base* newroot = new Sqr;
-		newroot.child = root;;
+		newroot.child = root;
 	}
 };
 
