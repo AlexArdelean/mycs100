@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 bool isInteger(const string& s)
 {
 	if(s.empty()) {
@@ -17,7 +16,7 @@ bool isInteger(const string& s)
 	strtol(s.c_str(), &p, 10) ;
 
 	return (*p == 0) ;
-};
+}
 
 int main() {
 
@@ -89,6 +88,4 @@ int main() {
 			cout << "Invalid Command" << endl;
 		}
 	}
-	return 0;
 };
-
