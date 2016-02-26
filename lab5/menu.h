@@ -34,15 +34,35 @@ class Menu {
 				return false;
 		};
 		void add_command(Command* cmd) {
-			if ((unsigned int)history_index == (history.size()-1)){
-				history.push_back(cmd);
-				}
-			else if ((unsigned int)history_index < (history.size()-1)){
 
-				}
-			else {
-				history.at(history_index + 1) = cmd;
-				}
+
+
+
+
+
+if (history_index == (unsigned int)(history.size() - 1)){
+      history.push_back(cmd);  
+             }else{  
+             	 for (unsigned int i=history_index; i < history.size(); i++){
+	     	          	            history.pop_back();
+          	                }
+
+	                              history.push_back(cmd);
+	              	          	                      }
+	              	          	                      if(history.size() > 1){
+	              	          	    	        history_index++;
+	        	              }
+
+			
+//			if ((unsigned int)history_index == (history.size()-1)){
+//				history.push_back(cmd);
+//				}
+//			else if ((unsigned int)history_index < (history.size()-1)){
+//
+//				}
+//			else {
+//				history.at(history_index + 1) = cmd;
+//				}
 
 		};
 		Command* get_command() {
