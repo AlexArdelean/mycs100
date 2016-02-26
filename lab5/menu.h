@@ -34,16 +34,16 @@ class Menu {
 				return false;
 		};
 		void add_command(Command* cmd) {
-			//Adds a command to history in the appropriate posiiton (based on history_index)
-//			if ((unsigned int)history_index == (history.size()-1)){
-//				history.push_back(cmd);
-//				}
-//			else if ((unsigned int)history_index < (history.size()-1)){
-//
-//				}
-//			else {
-//				history.at(history_index + 1) = cmd;
-//				}
+			if ((unsigned int)history_index == (history.size()-1)){
+				history.push_back(cmd);
+				}
+			else if ((unsigned int)history_index < (history.size()-1)){
+
+				}
+			else {
+				history.at(history_index + 1) = cmd;
+				}
+
 		};
 		Command* get_command() {
 			//Returns the command in history we are currently referring to (based on history_index)
@@ -58,9 +58,7 @@ class Menu {
 		};
 		void redo() {
 			//Moves to the next command in history (if possible)
-			if ((unsigned int)history_index >= history.size() - 1)
-				return;
-			else
+			if ((unsigned int)history_index < history.size() - 1)
 				history_index++;
 		};
 };

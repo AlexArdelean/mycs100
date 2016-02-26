@@ -21,40 +21,40 @@ class Command {
 class OpCommand : public Command {
 	//OpCommand Code Here
 	public:
-	OpCommand(double val){
-		delete root;
+	OpCommand(double val): Command() {
 		root = new Op(val);
+	};
 };
 
 class AddCommand : public Command {
 	//AddCommand Code Here
 	public:
-	AddCommand(Command* root, double val){
-		this->root = new Add(root->get_root(), new Op(val));
+	AddCommand(Command* cmd, double val): Command() {
+		root = new Add(cmd->get_root(), new Op(val));
 	};
 };
 
 class SubCommand : public Command {
 	//SubCommand Code Here
 	public:
-	SubCommand(Command* root, double val){
-		this->root= new Sub(root->get_root(), new Op(val));
+	SubCommand(Command* cmd, double val):Command() {
+		root= new Sub(cmd->get_root(), new Op(val));
 	};
 };
 
 class MultCommand : public Command {
 	//MultCommand Code Here
 	public:
-	MultCommand(Command* root, double val){
-		this->root = new Mult(root->get_root(), new Op(val));
+	MultCommand(Command* cmd, double val){
+		root = new Mult(cmd->get_root(), new Op(val));
 	};
 };
 
 class SqrCommand : public Command {
 	//SqrCommand Code Here
 	public:
-	SqrCommand(Command* root){
-		this->root = new Sqr(root->get_root());
+	SqrCommand(Command* cmd){
+		root = new Sqr(cmd->get_root());
 	};
 };
 
