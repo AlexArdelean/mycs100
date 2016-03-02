@@ -1,12 +1,15 @@
+#include "iterator.h"
+//#include "composite.h"
+//#include <iostream>
 
-
+//using namespace std;
 
 class Iterator{
 	protected:
 	Base* self_ptr;
 	Base* current_ptr;
 	public:
-	Iterator(Base*ptr){this->self_ptr=ptr;}
+	Iterator(Base* ptr){this->self_ptr=ptr;}
 	/*Setsuptheiteratortostartatthebeginningoftraversal*/
 	virtual void first()=0;
 	/*Moveontothenextelement*/
@@ -23,7 +26,7 @@ class Iterator{
 //This means it’s first will initialize to the left child, 
 //and its next will cycle from left child (which is where it is set
 //to start), to right child, then to NULL.
-class OperatorIterator:publicIterator{
+class OperatorIterator:public Iterator{
 	public:
 	OperatorIterator(Base* ptr);
 	void first(){
@@ -55,7 +58,7 @@ class OperatorIterator:publicIterator{
 //(which has been redeclared in the composite class as the left child, 
 //with Unary having no right child to make for an easier
 //interface), and next will cycle from child (which is where it is set to start) to NU
-class UnaryIterator:publicIterator{
+class UnaryIterator:public Iterator{
 	public:
 	UnaryIterator(Base* ptr);
 	void first(){
@@ -82,7 +85,7 @@ class UnaryIterator:publicIterator{
 //will always return NULL. It’s first()
 //and next() functions don’t need to do anything.
 
-class NullIterator:publicIterator{
+class NullIterator:public Iterator{
 	public:
 	NullIterator(Base* ptr);
 	void first(){return;};
@@ -99,7 +102,7 @@ class NullIterator:publicIterator{
 //we need to traverse. The rest of the functions will be written as
 //follows
 
-class PreOrderIterator:publicIterator{
+class PreOrderIterator:public Iterator{
 	protected:
 	stack<Iterator*> iterators;
 	public:
@@ -109,7 +112,7 @@ class PreOrderIterator:publicIterator{
 	bool is_done();
 	Base* current();
 };
-
+/*
 
 
 
@@ -131,4 +134,4 @@ bool PreOrderIterator::is_done(){
 Base* PreOrderIterator::current(){
 //Returnthecurrentforthetopiteratorinthestack
 }
-
+*/
