@@ -10,12 +10,13 @@
 
 using namespace std;
 
+class Base;
 class Iterator{
 	protected:
 	Base* self_ptr;
 	Base* current_ptr;
 	public:
-	Iterator(Base* ptr);
+	Iterator(Base* ptr){this->self_ptr=ptr;}
 	virtual void first()=0;
 	virtual void next()=0;
 	virtual bool is_done()=0;
@@ -59,30 +60,5 @@ class PreOrderIterator:public Iterator{
 	bool is_done();
 	Base* current();
 };
-/*
-void PreOrderIterator::first(){
-//Emptythestack(justincasewehadsomethingleftoverfrom
-//anotherrun)
-//CreateaniteratorfortheBase*thatwebuilttheiteratorfor
-//Initializethatiteratorandpushitontothestack
-}
-void PreOrderIterator::next(){
-//Createaniteratorfortheitemonthetopofthestack
-//Initializetheiteratorandpushitontothestack
-//Aslongasthetopiteratoronthestackisdone,popitoffthe
-//stackandthenadvancewhateveriteratorisnowontopofthestack
-}
-bool PreOrderIterator::is_done(){
-//Returntrueiftherearenomoreelementsonthestacktoiterate
-}
-Base* PreOrderIterator::current(){
-//Returnthecurrentforthetopiteratorinthestack
-}
-*/
 
-
-
-
-
-
-#endif //__COMPOSITE_CLASS__
+#endif //__ITERATOR_CLASS__

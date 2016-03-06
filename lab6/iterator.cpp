@@ -1,137 +1,97 @@
 #include "iterator.h"
-//#include "composite.h"
-//#include <iostream>
 
-//using namespace std;
+//-----------------------------
+//OperatorIterator class
 
-class Iterator{
-	protected:
-	Base* self_ptr;
-	Base* current_ptr;
-	public:
-	Iterator(Base* ptr){this->self_ptr=ptr;}
-	/*Setsuptheiteratortostartatthebeginningoftraversal*/
-	virtual void first()=0;
-	/*Moveontothenextelement*/
-	virtual void next()=0;
-	/*Returnsifyouhavefinishediteratingthroughallelements*/
-	virtual bool is_done()=0;
-	/*Returntheelementtheiteratoriscurrentlyat*/
-	virtual Base* current()=0;
-};
-
-
-
-//The OperatorIterator will be used to iterate over composite nodes with two children. 
-//This means it’s first will initialize to the left child, 
-//and its next will cycle from left child (which is where it is set
-//to start), to right child, then to NULL.
-class OperatorIterator:public Iterator{
-	public:
-	OperatorIterator(Base* ptr);
-	void first(){
-		this->current_ptr = self_ptr->get_left();	
-	};
-	void next(){
-		if (current_ptr == self_ptr->get_left())
-			this->current_ptr = this->self_ptr->get_right();
-		else if (current_ptr == self_ptr->get_right())
-			this->current_ptr = NULL;
-		else
-			cout << "Trying to get next from a null pointer(Class OperatorIterator).\n";
-	};
-	bool is_done(){
-		if (this->current_ptr = NULL)
-			return true;
-		else
-			return false;
-	};
-	Base* current(){
-		return this->current_ptr;
-	};
-};
-
-
-//The UnaryIterator will be used to iterate over composite nodes 
-//with one child (only Sqr in our case). 
-//This means it’s first will initialize to the only child 
-//(which has been redeclared in the composite class as the left child, 
-//with Unary having no right child to make for an easier
-//interface), and next will cycle from child (which is where it is set to start) to NU
-class UnaryIterator:public Iterator{
-	public:
-	UnaryIterator(Base* ptr);
-	void first(){
-		this->current_ptr = this->self_ptr->get_left();
-	};
-	void next(){
+OperatorIterator::OperatorIterator(Base* ptr):Iterator(ptr){this->self_ptr=ptr;}
+void OperatorIterator::first(){
+	this->current_ptr = self_ptr->get_left();	
+}
+void OperatorIterator::next(){
+	if (current_ptr == self_ptr->get_left())
+		this->current_ptr = this->self_ptr->get_right();
+	else if (current_ptr == self_ptr->get_right())
 		this->current_ptr = NULL;
-	};
-	bool is_done(){
-		if (this->current_ptr == NULL)
-			return true
-		else
-			return false;
-	};
-	Base* current(){
-		return this->current_ptr;
-	};
-};
+	else
+		cout << "Trying to get next from a null pointer(Class OperatorIterator).\n";
+}
+bool OperatorIterator::is_done(){
+	if (this->current_ptr == NULL)
+		return true;
+	else
+		return false;
+}
+Base* OperatorIterator::current(){
+	return this->current_ptr;
+}
+
+//----------------------------
+//UnaryIterator::
+UnaryIterator::UnaryIterator(Base* ptr):Iterator(ptr) {this->self_ptr=ptr;}
+void UnaryIterator::first(){
+	this->current_ptr = this->self_ptr->get_left();
+}
+void UnaryIterator::next(){
+	this->current_ptr = NULL;
+}
+bool UnaryIterator::is_done(){
+	if (this->current_ptr == NULL)
+		return true;
+	else
+		return false;
+}
+Base* UnaryIterator::current(){
+	return this->current_ptr;
+}
+
+//-----------------------------------
+//NullIterator class
 
 
-//The NullIterator is used to iterate over leaf nodes. 
-//Since leaf nodes have no children, the
-//NullIterator’s is_done() will always return true and it’s current() 
-//will always return NULL. It’s first()
-//and next() functions don’t need to do anything.
+NullIterator::NullIterator(Base* ptr):Iterator(ptr) {this->self_ptr=ptr;}
+void NullIterator::first(){return;}
+void NullIterator::next(){return;}
+bool NullIterator::is_done(){return true;};
+Base* NullIterator::current(){
+	Base* ptr = NULL;
+	return ptr;
+}
 
-class NullIterator:public Iterator{
-	public:
-	NullIterator(Base* ptr);
-	void first(){return;};
-	void next(){return;};
-	bool is_done(){return true;};
-	Base* current(){
-		Base* ptr = NULL;
-		return ptr;
-	};
-};
+//---------------------------------
+//PreorderIterator:Iterator
 
-//The PreOrderIterator has an additional stack data member, 
-//which we will use to keep tack of the collection iterators that
-//we need to traverse. The rest of the functions will be written as
-//follows
-
-class PreOrderIterator:public Iterator{
-	protected:
-	stack<Iterator*> iterators;
-	public:
-	PreOrderIterator(Base* ptr);
-	void first();
-	void next();
-	bool is_done();
-	Base* current();
-};
-/*
-
-
-
+PreOrderIterator::PreOrderIterator(Base* ptr):Iterator(ptr){this->self_ptr=ptr;}
 void PreOrderIterator::first(){
-//Emptythestack(justincasewehadsomethingleftoverfrom
-//anotherrun)
-//CreateaniteratorfortheBase*thatwebuilttheiteratorfor
-//Initializethatiteratorandpushitontothestack
+	this->iterators.empty();
+	Iterator* iter = this->self_ptr->create_iterator(); 
+	if (iter){
+		iter->first();
+		this->iterators.push(iter);
+	}	
 }
+
 void PreOrderIterator::next(){
-//Createaniteratorfortheitemonthetopofthestack
-//Initializetheiteratorandpushitontothestack
-//Aslongasthetopiteratoronthestackisdone,popitoffthe
-//stackandthenadvancewhateveriteratorisnowontopofthestack
+	Iterator* iter = this->iterators.top()->current()->create_iterator();
+	iter->first();
+	this->iterators.push(iter);
+	while(this->iterators.size() > 1 && this->iterators.top()->is_done()){
+		this->iterators.pop();
+		this->iterators.top()->next();
+	}
 }
+
 bool PreOrderIterator::is_done(){
-//Returntrueiftherearenomoreelementsonthestacktoiterate
+	if (this->iterators.size() == 1 && iterators.top()->is_done())
+		return true;
+	else
+		return false;
 }
+
 Base* PreOrderIterator::current(){
-//Returnthecurrentforthetopiteratorinthestack
+	if(this->iterators.size() > 0)
+		return this->iterators.top()->current();
+	else
+		return NULL;
 }
-*/
+
+
