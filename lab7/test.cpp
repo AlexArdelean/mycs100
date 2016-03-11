@@ -14,14 +14,13 @@ int main() {
 	Sub* sub = new Sub(add, sqr);
 	Root* root = new Root(sub);
 
-	PrintVisitor* print;
+	PrintVisitor* print = new PrintVisitor;
 
 	cout << "--- PreOrder Iteration ---" << endl;
 	PreOrderIterator* pre_itr = new PreOrderIterator(root);
 	for(pre_itr->first(); !pre_itr->is_done(); pre_itr->next()) {
 //		pre_itr->current()->print();
 		pre_itr->current()->accept(print);
-		cout << endl;
 	}
 	print->execute();
 };

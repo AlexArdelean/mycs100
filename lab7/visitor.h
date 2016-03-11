@@ -1,7 +1,16 @@
 #ifndef __Visitor_CLASS__
 #define __Visitor_CLASS__
+#include <iostream>
+#include "composite.h"
+#include "iterator.h"
+#include <string>
+#include <sstream>
+using namespace std;
 
-
+class Base;
+class Op;
+class Iterator;
+class PreOrderIterator;
 
 class Visitor {
 	public:
@@ -12,42 +21,20 @@ class Visitor {
 	virtual void addNode()=0;
 	virtual void opNode(Op* op)=0;
 	virtual void execute()=0;
-}
+};
 
 class PrintVisitor : public Visitor {
 	private:
-	std::string output;
+	string output;
 	public:
-	void rootNode(){
-		return;
-	}
-	void sqrNode(){
-		output << "^ ";
-	};
-	void multNode(){
-		output << "* ";
-	};
-	void subNode(){
-		output << "- ";	
-	};
-	void addNode(){
-		output << "+ ";
-	};
-	void opNode(Op* op){
-		output << op->evaluate() << " ";
-	};
-	void execute(){ 
-		cout << output;
-	};
-}
-
-
-
-
-
-
-
-
-
+	PrintVisitor();
+	void rootNode();
+	void sqrNode();
+	void multNode();
+	void subNode();
+	void addNode();
+	void opNode(Op* op);
+	void execute();
+};
 
 #endif 
